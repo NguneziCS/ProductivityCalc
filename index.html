@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-In-One Calculator Tools</title>
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7317513240430370"
+     crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --border-radius: 8px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tool-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .tool-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tool-card a {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .tool-card a:hover {
+            background-color: #3367d6;
+        }
+        
+        .calculator-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .calculator-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .calculator-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .calculator-content {
+            display: none;
+        }
+        
+        .calculator-content.active {
+            display: block;
+        }
+        
+        .calculator-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+        }
+        
+        .result strong {
+            color: var(--primary-color);
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Ad Styles */
+        .ad-container {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .ad-label {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner Ad -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7317513240430370"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">Calc<span>Tools</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#calculators">Calculators</a></li>
+                    <li><a href="#tools">All Tools</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>All-In-One Calculator Tools</h1>
+            <p>Free online calculators and tools for percentage, finance, health, math, and everyday calculations.</p>
+        </section>
+        
+        <!-- Calculator Section with Ad -->
+        <section id="calculators" class="calculator-section">
+            <h2>Percentage Calculators</h2>
+            
+            <!-- Responsive Ad between calculator title and content -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7317513240430370"
+                     data-ad-slot="2345678901"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <div class="calculator-tabs">
+                <button class="tab-btn active" data-tab="percentage-calculator">Percentage Calculator</button>
+                <button class="tab-btn" data-tab="percentage-change">Percentage Change</button>
+                <button class="tab-btn" data-tab="percentage-difference">Percentage Difference</button>
+                <button class="tab-btn" data-tab="percentage-increase">Percentage Increase</button>
+            </div>
+            
+            <div id="percentage-calculator" class="calculator-content active">
+                <form class="calculator-form">
+                    <div class="form-group">
+                        <label for="percent-of">What is % of ?</label>
+                        <input type="number" id="percent-of" placeholder="Percentage">
+                    </div>
+                    <div class="form-group">
+                        <label for="of-number">&nbsp;</label>
+                        <input type="number" id="of-number" placeholder="Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="is-what-percent">is what percent of ?</label>
+                        <input type="number" id="is-what-percent" placeholder="Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="what-number">&nbsp;</label>
+                        <input type="number" id="what-number" placeholder="Number">
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="button" class="btn" id="calculate-percentage">Calculate</button>
+                    </div>
+                </form>
+                <div class="result" id="percentage-result"></div>
+            </div>
+            
+            <div id="percentage-change" class="calculator-content">
+                <form class="calculator-form">
+                    <div class="form-group">
+                        <label for="old-value">Old Value</label>
+                        <input type="number" id="old-value" placeholder="Enter old value">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-value">New Value</label>
+                        <input type="number" id="new-value" placeholder="Enter new value">
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="button" class="btn" id="calculate-change">Calculate Change</button>
+                    </div>
+                </form>
+                <div class="result" id="change-result"></div>
+            </div>
+            
+            <div id="percentage-difference" class="calculator-content">
+                <form class="calculator-form">
+                    <div class="form-group">
+                        <label for="value1">Value 1</label>
+                        <input type="number" id="value1" placeholder="Enter first value">
+                    </div>
+                    <div class="form-group">
+                        <label for="value2">Value 2</label>
+                        <input type="number" id="value2" placeholder="Enter second value">
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="button" class="btn" id="calculate-difference">Calculate Difference</button>
+                    </div>
+                </form>
+                <div class="result" id="difference-result"></div>
+            </div>
+            
+            <div id="percentage-increase" class="calculator-content">
+                <form class="calculator-form">
+                    <div class="form-group">
+                        <label for="original-value">Original Value</label>
+                        <input type="number" id="original-value" placeholder="Enter original value">
+                    </div>
+                    <div class="form-group">
+                        <label for="increase-percent">Increase by %</label>
+                        <input type="number" id="increase-percent" placeholder="Enter percentage">
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="button" class="btn" id="calculate-increase">Calculate Increase</button>
+                    </div>
+                </form>
+                <div class="result" id="increase-result"></div>
+            </div>
+        </section>
+        
+        <!-- Tools Section with Ad -->
+        <section id="tools" class="tools-section">
+            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">More Useful Tools</h2>
+            
+            <!-- Responsive Ad before tools grid -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7317513240430370"
+                     data-ad-slot="3456789012"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>Loan Calculator</h3>
+                    <p>Calculate monthly payments, total interest, and amortization schedule for loans.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>BMI Calculator</h3>
+                    <p>Calculate your Body Mass Index and see where you fall on the weight scale.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Tip Calculator</h3>
+                    <p>Calculate tip amounts for restaurants based on service quality and bill total.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Age Calculator</h3>
+                    <p>Calculate exact age in years, months, days, or even seconds since birth.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Unit Converter</h3>
+                    <p>Convert between different units of length, weight, volume, temperature and more.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Discount Calculator</h3>
+                    <p>Calculate final price after discount and how much you saved.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Grade Calculator</h3>
+                    <p>Calculate your current grade and what you need on final exams.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>Password Generator</h3>
+                    <p>Create strong, secure passwords with customizable options.</p>
+                    <a href="#">Use Tool</a>
+                </div>
+            </div>
+            
+            <!-- Responsive Ad after tools grid -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7317513240430370"
+                     data-ad-slot="4567890123"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer with Ad -->
+    <footer>
+        <!-- Responsive Ad before footer content -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7317513240430370"
+                 data-ad-slot="5678901234"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        
+        <div class="container footer-content">
+            <div class="logo" style="color: white;">Calc<span style="color: var(--accent-color);">Tools</span></div>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+            <p class="copyright">© 2023 All-In-One Calculator Tools. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.calculator-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Percentage Calculator
+        document.getElementById('calculate-percentage').addEventListener('click', () => {
+            const percentOf = parseFloat(document.getElementById('percent-of').value);
+            const ofNumber = parseFloat(document.getElementById('of-number').value);
+            const isWhatPercent = parseFloat(document.getElementById('is-what-percent').value);
+            const whatNumber = parseFloat(document.getElementById('what-number').value);
+            
+            let result = '';
+            
+            if (!isNaN(percentOf) && !isNaN(ofNumber)) {
+                const calculated = (percentOf / 100) * ofNumber;
+                result += `${percentOf}% of ${ofNumber} = <strong>${calculated.toFixed(2)}</strong><br>`;
+            }
+            
+            if (!isNaN(isWhatPercent) && !isNaN(whatNumber)) {
+                const calculated = (isWhatPercent / whatNumber) * 100;
+                result += `${isWhatPercent} is <strong>${calculated.toFixed(2)}%</strong> of ${whatNumber}`;
+            }
+            
+            document.getElementById('percentage-result').innerHTML = result || 'Please enter values to calculate.';
+        });
+        
+        // Percentage Change Calculator
+        document.getElementById('calculate-change').addEventListener('click', () => {
+            const oldValue = parseFloat(document.getElementById('old-value').value);
+            const newValue = parseFloat(document.getElementById('new-value').value);
+            
+            if (!isNaN(oldValue) && !isNaN(newValue)) {
+                const change = ((newValue - oldValue) / oldValue) * 100;
+                const changeType = change >= 0 ? 'increase' : 'decrease';
+                const absChange = Math.abs(change);
+                
+                document.getElementById('change-result').innerHTML = 
+                    `From ${oldValue} to ${newValue} is a <strong>${absChange.toFixed(2)}% ${changeType}</strong>.`;
+            } else {
+                document.getElementById('change-result').innerHTML = 'Please enter both values.';
+            }
+        });
+        
+        // Percentage Difference Calculator
+        document.getElementById('calculate-difference').addEventListener('click', () => {
+            const value1 = parseFloat(document.getElementById('value1').value);
+            const value2 = parseFloat(document.getElementById('value2').value);
+            
+            if (!isNaN(value1) && !isNaN(value2)) {
+                const difference = (Math.abs(value1 - value2) / ((value1 + value2) / 2)) * 100;
+                
+                document.getElementById('difference-result').innerHTML = 
+                    `The difference between ${value1} and ${value2} is <strong>${difference.toFixed(2)}%</strong>.`;
+            } else {
+                document.getElementById('difference-result').innerHTML = 'Please enter both values.';
+            }
+        });
+        
+        // Percentage Increase Calculator
+        document.getElementById('calculate-increase').addEventListener('click', () => {
+            const originalValue = parseFloat(document.getElementById('original-value').value);
+            const increasePercent = parseFloat(document.getElementById('increase-percent').value);
+            
+            if (!isNaN(originalValue) && !isNaN(increasePercent)) {
+                const increasedValue = originalValue * (1 + (increasePercent / 100));
+                
+                document.getElementById('increase-result').innerHTML = 
+                    `${originalValue} increased by ${increasePercent}% = <strong>${increasedValue.toFixed(2)}</strong>`;
+            } else {
+                document.getElementById('increase-result').innerHTML = 'Please enter both values.';
+            }
+        });
+    </script>
+</body>
+</html>
